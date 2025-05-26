@@ -66,6 +66,7 @@ Type objective_function<Type>::operator() ()
   DATA_IMATRIX(cso);//cor structure for occupancy REs
   DATA_INTEGER(family);
   DATA_MATRIX(NTrials);
+  DATA_MATRIX(offset);
   DATA_INTEGER(linka);
   DATA_INTEGER(linko);
   DATA_IVECTOR(sites);//should be ordered and zero-indexed
@@ -89,7 +90,9 @@ Type objective_function<Type>::operator() ()
   matrix<Type>etaa(Xa.rows(),Y.cols());
   etaa.fill(0.0);
   etaa = Xa*Ba;
-
+  if(offset.rows()==etaa.rows()){
+  etaa += offset;
+  }
   if(Za.rows()==Xa.rows()){
     etaa += Za*Ua;
 
